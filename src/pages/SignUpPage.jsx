@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 function SignUpPage({ onLogin }) {
@@ -21,7 +22,8 @@ function SignUpPage({ onLogin }) {
       return;
     }
     setError('');
-    console.log('Sign up attempt:', { name, email, password });
+    console.log('Sign up attempt:', { email, password,confirmPassword });
+    toast.success('Sign up successful!');
     // After successful signup, set login state and navigate to dashboard
     if (onLogin) {
       onLogin();

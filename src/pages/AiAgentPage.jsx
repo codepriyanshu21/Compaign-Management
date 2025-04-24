@@ -18,7 +18,7 @@ const AiAgentPage = () => {
     setMessages([...messages, newMessage]);
     setInput('');
 
-    // Simulate AI agent response (replace with real API call if needed)
+    // Simulated AI agent response
     setTimeout(() => {
       const agentResponse = {
         id: messages.length + 2,
@@ -29,32 +29,38 @@ const AiAgentPage = () => {
     }, 1000);
   };
 
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
-  };
+  const handleInputChange = (e) => setInput(e.target.value);
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
   };
 
   return (
-    <div className="p-6 flex flex-col h-full max-h-[calc(100vh-4rem)]">
+    <div className="p-6 flex flex-col h-screen">
       <h1 className="text-2xl font-bold mb-6">AI Agent Chat</h1>
-      <div className="flex-1 overflow-y-auto mb-4 border rounded-lg p-4 bg-white shadow-sm">
+
+      <div className="flex-1 overflow-y-auto mb-4 border rounded-lg p-4 bg-white shadow-sm flex flex-col gap-3">
         {messages.map((msg) => (
           <div
             key={msg.id}
-            className={`mb-3 max-w-xs px-4 py-2 rounded-lg ${
-              msg.sender === 'agent' ? 'bg-indigo-100 self-start' : 'bg-indigo-600 text-white self-end'
-            }`}
+            className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
           >
-            {msg.text}
+            <div
+              className={`px-4 py-2 rounded-lg max-w-xs break-words ${
+                msg.sender === 'agent'
+                  ? 'bg-indigo-100 text-gray-800'
+                  : 'bg-indigo-600 text-white'
+              }`}
+            >
+              {msg.text}
+            </div>
           </div>
         ))}
       </div>
+
       <div className="flex">
         <textarea
           className="flex-1 border rounded-md p-2 resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"

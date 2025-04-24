@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../api/authApi';
+import toast from 'react-hot-toast';
 
 function LoginPage({onLogin}) {
   const [email, setEmail] = useState('');
@@ -9,12 +11,40 @@ function LoginPage({onLogin}) {
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login attempt:', { email, password, rememberMe });
-    onLogin();
-    navigate('/');
+  
+    try {
+      const response = await login(email, password);
+      console.log('Full response:', response);
+  
+      const accessToken = response?.data?.access || response?.data?.accessToken;
+      const refreshToken = response?.data?.refresh || response?.data?.refreshToken;
+  
+      if (!accessToken || !refreshToken) {
+        toast.error('Invalid login response. Tokens missing!');
+        return;
+      }
+  
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      toast.success('Login successful!');
+      console.log('Login successful:', response.data);
+  
+      if (rememberMe) {
+        localStorage.setItem('token', accessToken);
+      } else {
+        sessionStorage.setItem('token', accessToken);
+      }
+  
+      onLogin();
+      navigate('/');
+    } catch (err) {
+      console.error('Login failed:', err?.response?.data || err.message);
+      toast.error('Login failed. Please try again.');
+    }
   };
+  
 
   const handleMagicLink = (e) => {
     e.preventDefault();
@@ -187,7 +217,7 @@ function LoginPage({onLogin}) {
 
         <div className="flex justify-center space-x-6">
           <button className="p-2 rounded-full hover:bg-gray-100">
-            <img src="	https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google" className="w-6 h-6" />
+            <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google" className="w-6 h-6" />
           </button>
           <button className="p-2 rounded-full hover:bg-gray-100">
             <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook" className="w-6 h-6" />

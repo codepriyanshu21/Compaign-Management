@@ -6,15 +6,18 @@ import DashboardPage from './pages/DashboardPage';
 import AiAgentPage from './pages/AiAgentPage';
 import CampaignPage from './pages/CampaignPage';
 import PromoterPage from './pages/PromoterPage';
-import LabelsPage from './pages/LabelsPage';
+import LeadsPage from './pages/LeadsPage.jsx';
 import PayoutPage from './pages/PayoutPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage.jsx';
+import { Toaster } from 'react-hot-toast';
+import NewCampaign from './pages/NewCampaign.jsx'; 
+import BusinessOwnerForm from './pages/BusinessOwnerForm.jsx';
+import BusinessOwnerDetails from './pages/BusinessOwnerDetails.jsx';
 
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(() => {
-    // Initialize from localStorage
     const saved = localStorage.getItem('isLoggedIn');
     return saved === 'true';
   });
@@ -35,34 +38,34 @@ const App = () => {
 
   if (!isLoggedIn) {
     return (
-      <Routes>
-        <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
-        <Route path="/signup" element={<SignUpPage onLogin={handleLogout} />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
+      <>
+        <Toaster />
+        <Routes>
+          <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+          <Route path="/signup" element={<SignUpPage onLogin={handleLogin} />} />
+          
+        </Routes>
+      </>
     );
   }
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
+      <Toaster />
       <Sidebar isOpen={sidebarOpen} toggle={toggleSidebar} />
-
-      {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Navbar */}
-        <Navbar toggleSidebar={toggleSidebar} />
-
-        {/* Main Content */}
+        <Navbar toggleSidebar={toggleSidebar} onLogout={handleLogout} />
         <main className="flex-1 overflow-y-auto">
           <Routes>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/ai-agent" element={<AiAgentPage />} />
             <Route path="/campaign" element={<CampaignPage />} />
             <Route path="/promoter" element={<PromoterPage />} />
-            <Route path="/labels" element={<LabelsPage />} />
+            <Route path="/leads" element={<LeadsPage />} />
             <Route path="/payout" element={<PayoutPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="/new-campaign" element={<NewCampaign />} />
+            <Route path="/business-owner" element={<BusinessOwnerForm />} />
+            <Route path="/owner-details" element={<BusinessOwnerDetails />} />
           </Routes>
         </main>
       </div>
