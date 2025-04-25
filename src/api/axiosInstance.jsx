@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://34.10.166.233', // Your API base URL
+  baseURL: import.meta.env.VITE_BACKEND_URL, // Your API base URL
   headers: {
     'Content-Type': 'application/json',
   },
@@ -36,7 +36,7 @@ axiosInstance.interceptors.response.use(
       
       if (refreshToken) {
         try {
-          const res = await axios.post('http://34.10.166.233/auth/refresh', {
+          const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/refresh`, {
             refresh: refreshToken,
           });
 
