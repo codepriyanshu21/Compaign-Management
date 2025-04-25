@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL, // Your API base URL
+  baseURL: '/api/proxy', // Use Vercel proxy to avoid mixed content error
   headers: {
     'Content-Type': 'application/json',
   },
