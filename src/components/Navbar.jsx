@@ -7,7 +7,7 @@ const Navbar = ({ toggleSidebar,onLogout }) => {
 
   const handleLogoutClick = () => {
     onLogout();
-    navigate('/login');
+    navigate('/');
     setShowLogout(false); 
   };
 

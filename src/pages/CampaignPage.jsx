@@ -12,28 +12,62 @@ const CampaignPage = () => {
       try {
         const response = await getCampaigns();
         const originalData = response.data || [];
-  
+
         // Simulate status
         const campaignsWithStatus = originalData.map((c, index) => ({
           ...c,
           status: index % 2 === 0 ? 'Active' : 'Inactive', // Alternate status
         }));
-  
+
         setCampaigns(campaignsWithStatus);
       } catch (error) {
         console.error('Failed to fetch campaigns:', error);
       }
     };
-  
+
     fetchCampaigns();
   }, []);
-  
 
-  const totalReferrals = campaigns.reduce((acc, c) => acc + (c.referrals || 0), 0);
-  const activeCount = campaigns.filter(c => c.status === 'Active').length;
+  // If no campaigns are fetched, use dummy data
+  const dummyCampaigns = [
+    {
+      campaign_name: 'Dummy Campaign 1',
+      campaign_description: 'This is a dummy campaign.',
+      campaign_start_date: '2025-01-01',
+      campaign_end_date: '2025-12-31',
+      promoter_reward_points: 100,
+      lead_reward_discount: 10,
+      target_promoter_type: 'All Promoters',
+      status: 'Active',
+    },
+    {
+      campaign_name: 'Dummy Campaign 2',
+      campaign_description: 'This is another dummy campaign.',
+      campaign_start_date: '2025-02-01',
+      campaign_end_date: '2025-12-31',
+      promoter_reward_points: 150,
+      lead_reward_discount: 15,
+      target_promoter_type: 'New Promoters',
+      status: 'Inactive',
+    },
+    {
+      campaign_name: 'Dummy Campaign 3',
+      campaign_description: 'This is a third dummy campaign.',
+      campaign_start_date: '2025-03-01',
+      campaign_end_date: '2025-12-31',
+      promoter_reward_points: 200,
+      lead_reward_discount: 20,
+      target_promoter_type: 'Veteran Promoters',
+      status: 'Active',
+    },
+  ];
 
+  const campaignsToDisplay = campaigns.length > 0 ? campaigns : dummyCampaigns;
 
-  // Delete camapign handler
+  const totalReferrals = campaignsToDisplay.reduce((acc, c) => acc + (c.referrals || 0), 0);
+  const activeCount = campaignsToDisplay.filter(c => c.status === 'Active').length;
+
+  // Delete campaign handler
   const handleDelete = async (id) => {
     try {
       await getCampaignById(id);
@@ -43,7 +77,7 @@ const CampaignPage = () => {
       console.log('Error deleting campaign:', error);
       toast.error('Failed to delete campaign. Please try again.');
     }
-  }
+  };
 
   return (
     <div className="p-6">
@@ -53,7 +87,7 @@ const CampaignPage = () => {
           <Megaphone className="text-blue-600 w-10 h-10" />
           <div>
             <p className="text-sm text-gray-500">Total Campaigns</p>
-            <h3 className="text-xl font-semibold">{campaigns.length}</h3>
+            <h3 className="text-xl font-semibold">{campaignsToDisplay.length}</h3>
           </div>
         </div>
         <div className="bg-white rounded-xl shadow-md p-5 flex items-center gap-4">
@@ -84,7 +118,7 @@ const CampaignPage = () => {
 
       {/* Campaign Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {campaigns.map((campaign, i) => (
+        {campaignsToDisplay.map((campaign, i) => (
           <div
             key={i}
             className="bg-white rounded-xl shadow-md p-5 flex flex-col justify-between border border-gray-100 hover:shadow-lg transition duration-300"
@@ -130,8 +164,6 @@ const CampaignPage = () => {
           </div>
         ))}
       </div>
-
-
     </div>
   );
 };

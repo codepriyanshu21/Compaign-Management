@@ -51,7 +51,7 @@ axiosInstance.interceptors.response.use(
           // Optional: Clear both access and refresh tokens and redirect to login page
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
-          window.location.href = '/login'; // or redirect to login page
+          window.location.href = '/'; // or redirect to login page
         }
       }
     }
