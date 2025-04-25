@@ -28,7 +28,7 @@ function SignUpPage({ onLogin }) {
     if (onLogin) {
       onLogin();
     }
-    navigate('/');
+    navigate('/dashboard'); 
   };
 
   return (
@@ -127,7 +127,7 @@ function SignUpPage({ onLogin }) {
           <button
             type="button"
             className="text-blue-500 hover:text-blue-600 font-medium"
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/')}
           >
             Login here
           </button>

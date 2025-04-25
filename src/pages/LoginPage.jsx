@@ -38,7 +38,7 @@ function LoginPage({onLogin}) {
       }
   
       onLogin();
-      navigate('/');
+      navigate('/dashboard'); 
     } catch (err) {
       console.error('Login failed:', err?.response?.data || err.message);
       toast.error('Login failed. Please try again.');

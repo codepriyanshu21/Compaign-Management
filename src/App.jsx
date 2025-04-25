@@ -41,7 +41,7 @@ const App = () => {
       <>
         <Toaster />
         <Routes>
-          <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+          <Route path="/" element={<LoginPage onLogin={handleLogin} />} />
           <Route path="/signup" element={<SignUpPage onLogin={handleLogin} />} />
           
         </Routes>
@@ -57,7 +57,7 @@ const App = () => {
         <Navbar toggleSidebar={toggleSidebar} onLogout={handleLogout} />
         <main className="flex-1 overflow-y-auto">
           <Routes>
-            <Route path="/" element={<DashboardPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/ai-agent" element={<AiAgentPage />} />
             <Route path="/campaign" element={<CampaignPage />} />
             <Route path="/promoter" element={<PromoterPage />} />

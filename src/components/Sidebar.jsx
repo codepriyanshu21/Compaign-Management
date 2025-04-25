@@ -22,7 +22,7 @@ const Sidebar = ({ isOpen, toggle }) => {
       <nav className="p-4 flex-1 overflow-auto">
         <ul className="space-y-2">
           <li>
-            <Link to="/" className={`flex items-center bg-white p-3 rounded-lg transition-colors duration-200 ${isActive('/')}`}>
+            <Link to="/dashboard" className={`flex items-center bg-white p-3 rounded-lg transition-colors duration-200 ${isActive('/')}`}>
               <span className="material-icons text-blue-500 mr-3">dashboard</span>
               <span className="text-blue-500">Dashboard</span>
             </Link>

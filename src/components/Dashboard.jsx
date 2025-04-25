@@ -346,7 +346,7 @@ const Sidebar = ({ isOpen, toggle }) => {
         <ul className="space-y-2">
           <li>
             <Link
-              to="/"
+              to="/dashboard"
               className={`flex items-center p-3 rounded-lg transition-colors duration-200 ${isActive('/')}`}
             >
               <span className="material-icons mr-3">dashboard</span>
